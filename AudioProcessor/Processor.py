@@ -32,3 +32,7 @@ def NoteFinder(audio, fs):
         note = 'hmmm'
 
     return note
+
+def BpmFinder(audio, fs):
+
+    return []

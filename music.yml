@@ -42,6 +42,18 @@ dependencies:
   - wincertstore=0.2=py36h7fe50ca_0
   - zlib=1.2.11=h62dcd97_3
   - pip:
+    - audioread==2.1.8
+    - cffi==1.14.0
+    - decorator==4.4.2
+    - joblib==0.14.1
     - keyboard==0.13.5
+    - librosa==0.7.2
+    - llvmlite==0.31.0
+    - numba==0.48.0
+    - playsound==1.2.2
+    - pycparser==2.20
+    - resampy==0.2.2
+    - scikit-learn==0.22.2.post1
+    - soundfile==0.10.3.post1
 prefix: C:\Users\Danie\Anaconda3\envs\music
 

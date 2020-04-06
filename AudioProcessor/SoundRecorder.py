@@ -5,6 +5,7 @@ import struct
 import matplotlib.pyplot as plt
 import Processor
 import numpy as np
+import librosa
 
 CHUNK = 10000
 FORMAT = pyaudio.paInt16
@@ -31,9 +32,12 @@ while True:
         print("Done recording") 
         break 
     sig = np.frombuffer(data, dtype='<i2').reshape(-1, CHANNELS)
+
     note = Processor.NoteFinder(sig[:, 0], RATE)
     print(note)
-    
+
+    bpm = Processor.BpmFinder(sig[:, 0], RATE)
+    print(bpm)
 
 stream.stop_stream()
 stream.close()
