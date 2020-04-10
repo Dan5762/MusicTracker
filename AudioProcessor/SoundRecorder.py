@@ -5,6 +5,9 @@ import struct
 import matplotlib.pyplot as plt
 import Processor
 import numpy as np
+import librosa
+
+from Errors import ProcessingError
 
 CHUNK = 10000
 FORMAT = pyaudio.paInt16
@@ -23,7 +26,8 @@ stream = p.open(format=FORMAT,
 print("Recording")
 
 frames = []
-
+chunk_iter = 0
+bpm_buffer = np.asarray([])
 while True: 
     data = stream.read(CHUNK)
     frames.append(data)
@@ -31,9 +35,20 @@ while True:
         print("Done recording") 
         break 
     sig = np.frombuffer(data, dtype='<i2').reshape(-1, CHANNELS)
+
     note = Processor.NoteFinder(sig[:, 0], RATE)
     print(note)
-    
+
+    bpm_buffer = np.append(bpm_buffer, sig[:, 0])
+    chunk_iter += 1
+    if (chunk_iter * CHUNK) / RATE > 5:
+        try:
+            bpm = Processor.BpmFinder(bpm_buffer, RATE)
+            print(f"Predicter Tempo: {round(bpm, 1)}")
+        except ProcessingError as e:
+            print("Error: ", e.msg)
+        chunk_iter = 0
+        bpm_buffer = np.asarray([])
 
 stream.stop_stream()
 stream.close()
